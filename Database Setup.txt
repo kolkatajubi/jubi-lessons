@@ -1,0 +1,337 @@
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------MongoDB-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+MongoDB is a document database, which means it stores data
+in JSON-like documents. We believe this is the most natural
+way to think about data, and is much more expressive and powerful
+than the traditional row/column model.
+  -- Supports arrays and nested objects as values.
+  -- Queries are themselves JSON, and thus easily composable.
+
+Step-1:   To login to the database server :
+        On the command line type :
+        ssh root@<IP Address>                          // To connect to the Ubuntu Server from your system
+        You will be asked for password :
+        <Type password>                                // You cannot see the password being typed
+
+
+Step-2:   Installing MongoDB on Ubuntu server :
+        Copy Paste the following commands :
+
+        wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+        echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+        sudo apt-get update
+        sudo apt-get install -y mongodb-org
+
+        Reference  ---  https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+
+Step-3:   Binding a specific IP to MongoDB :
+  --    To check the current IP address of MongoDB (default : 127.0.0.1:27017) type-
+        ifconfig
+  --    To change the IP open the configuration file at :
+        sudo nano /etc/mongod.conf
+  --    Change the following lines in the configuration file :
+        # network interfaces
+        net:
+          port: 27017                                 // You can also change the default Port number
+          bindIp: 127.0.0.1,<IP Address>              // Binding to multiple IPs - Localhost and Private IP
+  --    To save and exit the editor press :
+        "Ctrl+X", "Y" , "Enter"
+
+        Reference  ---  https://www.mongodb.com/blog/post/enabling-ip-security-for-mongodb-36-on-ubuntu
+
+
+Step-4:   MongoDB services:
+  --    Start :
+        sudo service mongod start
+
+        To check if MongoDB is listening on correct IP Address and Port number type
+        "ifconfig" and check it's content.
+  --    Stop :
+        sudo service mongod stop
+  --    Restart :
+        sudo service mongod restart
+
+        Reference  ---  https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+
+
+Your MongoDB setup is done and now you are good to go.
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------THE END-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------Mongoose------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+First be sure you have MongoDB and Node.js installed.
+
+Step-1:   Next install Mongoose from the command line using npm :
+      $ npm i mongoose --save                         // Will save the mongoose package in local folder
+
+
+Step-2:   Setting up the Schema of the DataBase :
+
+      <File name : db.js>
+
+
+      var mongoose = require("mongoose");
+
+      var Schema = mongoose.Schema;
+
+      var User = new Schema({
+        username: String,
+        password: String,
+        referral: String
+      });
+
+      User.index({ username: 1 });
+      User.index({ referral: 1 });
+ 
+      module.exports = mongoose.model("User", User);
+
+
+Step-2:   Boiler plate code to get started :
+        Copy Paste the following commands :
+
+
+      var mongoose = require('mongoose');
+      var User = require("./userSchema");
+      mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+      mongoose.connect("mongodb://<--Enter IP Address:PORT-->/<-Folder Name in which all files are present-->", {
+          useNewUrlParser: true
+      });
+
+      module.exports = {
+      readByUsername: username => {
+      return new Promise((resolve, reject) => {
+            var filter = { username: username };
+            User.find(filter, function(err, data) {
+            if (err) {
+            return reject({ status: "error", data: err });
+            }
+            return resolve({ status: "success", data: data });
+            });
+      });
+      },
+      readByReferral: ref => {
+      return new Promise((resolve, reject) => {
+            var filter = { referral: ref };
+            User.find(filter, function(err, data) {
+            if (err) {
+            return reject({ status: "error", data: err });
+            }
+            return resolve({ status: "success", data: data });
+            });
+      });
+      },
+      createUser: user => {
+      return new Promise((resolve, reject) => {
+            var newUser = new User(user);
+            newUser.save(function(err, data) {
+            if (err) {
+            return reject({ status: "error", data: err });
+            }
+            return resolve({ status: "success", data: data });
+            });
+      });
+      }
+      };
+
+
+
+        Reference  ---  https://mongoosejs.com/docs/2.7.x/docs/indexes.html
+                        https://mongoosejs.com/docs/guide.html
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------THE END-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------------
+--------------------------------------------------REDIS--------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+Redis, an open source, in-memory, data structure server is frequently used as a distributed shared cache
+(in addition to being used as a message broker or database) because it enables true statelessness for an
+applications' processes, while reducing duplication of data or requests to external data sources.
+
+Installing Redis on Server --
+
+      $ sudo apt-get update
+      $ sudo apt-get upgrade
+      $ sudo apt-get install redis-server
+      $ service redis-server start
+      $ sudo restart redis-server.service
+
+      OR
+
+      $ wget http://download.redis.io/releases/redis-stable.tar.gz
+      $ tar xzf redis.tar.gz
+      $ cd redis
+      $ src/redis
+      $ make
+      $ make test
+      $ sudo make install
+
+      Extra Commands :
+
+      $ redis-cli info stats
+      $ redis-cli info server
+
+
+Redis, by default, binds itself to 127.0.0.1, if you want to change the address, 
+just update the “bind” key in the config file :
+      $ sudo nano /etc/redis/redis.conf
+      To save and exit the editor press :
+            "Ctrl+X", "Y" , "Enter"
+
+
+Redis will show an error message if you try to run without AUTH password set. So you need to go
+to the configuration file and set "requirepass" in it :
+      $ ./src/redis-server redis.conf
+
+        Reference  ---  https://tecadmin.net/install-redis-ubuntu/
+                        https://hackernoon.com/using-redis-with-node-js-8d87a48c5dd7
+                        https://www.npmjs.com/package/redis
+                        https://medium.com/@petehouston/install-and-config-redis-server-on-ubuntu-linux-16-04-3c59729e12cc
+                        https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------THE END-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------REDIS in Node.js--------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+First be sure you have MongoDB and Node.js installed.
+
+Step-1:   Next install Mongoose from the command line using npm :
+      $ npm i redis  --save                         // Will save the mongoose package in local folder
+
+
+Step-2:   Code Example for SET and GET method of REDIS :
+
+      <File name : cache.js>
+
+
+      var redis = require("redis");
+      var client = redis.createClient("6379", "10.139.47.224");
+      client.auth("kolkatachampspixie");
+
+      client.on("connect", function() {
+      console.log("connected");
+      });
+
+      client.on("error", function(err) {
+      console.log("Error " + err);
+      });
+
+      module.exports = {
+      setSessionId: (sessionId, username) => {
+      return new Promise((resolve, reject) => {
+            client.set(sessionId, username, redis.print);
+            client.expire(sessionId, 3600);
+            return resolve();
+      });
+      },
+      checkLogin: (sessionId, username) => {
+      return new Promise((resolve, reject) => {
+            client.get(sessionId, (err, usernameCache) => {
+            if (err) {
+            return resolve({ status: "error", data: err });
+            }
+            if (username == usernameCache) {
+            return resolve({ status: "success" });
+            }
+            return resolve({ status: "error" });
+            });
+      });
+      }
+      };
+
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------THE END-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------------
+----------------------------------------------Creating an API--------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+
+<File name : Server.js>
+
+
+var db = require("./db");
+var cache = require("./cache");
+
+// Dependencies
+const express = require("express");
+const app = express();
+
+const bodyparser = require("body-parser");
+
+// Defining Path for URL Re-routes
+var path = require("path");
+
+// Body Parser will parse the HTML and return it in non-encoded format
+app.use(
+  bodyparser.urlencoded({
+    extended: false
+  })
+);
+
+// Body Parser will parse the HTML and return it in JSON format
+app.use(bodyparser.json());
+
+// Defining IP-Address and PORT number
+const ipaddress = "127.0.0.1";
+const port = 3125;
+
+// Listening to the IP-Address:PORT number
+app.listen(port, ipaddress, () =>
+  console.log(`Listening at ${ipaddress}:${port}...`)
+);
+
+app.post("/checkLogin", async (req, res) => {
+  res.json(await cache.checkLogin(req.body.sessionId, req.body.username));
+});
+
+app.post("/setSessionId", async (req, res) => {
+  await cache.setSessionId(req.body.sessionId, req.body.username);
+  res.json({ status: "success" });
+});
+
+app.post("/readByUsername", async (req, res) => {
+  res.json(await db.readByUsername(req.body.username));
+});
+
+app.post("/readByReferral", async (req, res) => {
+  res.json(await db.readByReferral(req.body.referral));
+});
+
+app.post("/createUser", async (req, res) => {
+  res.json(await db.createUser(req.body));
+});
+
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------THE END-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
