@@ -1,0 +1,104 @@
+HTML
+HyperTextMarkupLanguage(HTML) is used for designing static webpages.
+Tags
+Tags are element names surrounded by angle brackets.
+Syntax:  <tagname>content goes here...</tagname>
+Explaination: 
+The first tag in a pair is the start tag, the second tag is the end tag
+The end tag is written like the start tag, but with a forward slash inserted before the tag name.
+HTML contains diffrent tags each having different functions. Some of them are defined below.
+<html>This is the main tag
+<head>Contains meta information about the document</head>
+<title>Specifies a title for the document</title>
+<body>Contains the content of the page</body>
+HTML page structure:
+<html>
+<head>
+<title>Page title</title>
+</head>
+<body>
+<h1>This is a heading</h1>
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+</body>
+</html>
+The <!DOCTYPE> Declaration:
+The <!DOCTYPE> declaration represents the document type, and helps browsers to display web pages correctly.
+It must only appear once, at the top of the page (before any HTML tags).
+The <!DOCTYPE> declaration is not case sensitive.
+The <!DOCTYPE> declaration for HTML5 is:
+          <!DOCTYPE html>
+where to write html code:
+One can write html code on any editor,even it can be written on notepad, the name of file will having an extension of ".html".
+now open the html document using any browser to see the webpage.
+Let us see some useful tags in html:
+HTML HEADINGS:
+HTML headings are defined with the <h1> to <h6> tags.
+<h1> defines the most important heading. <h6> defines the least important heading:
+<h1>This is heading 1</h1>
+<h2>This is heading 2</h2>
+<h3>This is heading 3</h3>
+HTML Image:
+In HTML, images are defined with the <img> tag.
+The <img> tag is empty, it contains attributes only, and does not have a closing tag.
+The src attribute specifies the URL (web address) of the image:
+Syntax: 
+<img src="img_chania.jpg" alt="Flowers in Chania">
+Here the alt attribute provides an alternate text of an image, if the user for some reason cannot view it(basically it describes the image).
+HTML TABLES:
+Each table row is defined with the <tr> tag. A table header is defined with the <th> tag. By default, table headings are bold and centered. A table data/cell is defined with the <td> tag.
+Syntax:
+<table>
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Age</th>
+  </tr>
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td>
+    <td>50</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td>
+    <td>94</td>
+  </tr>
+</table>
+
+HTML LIST:
+There are two types of list:
+Unordered list
+Ordered list
+Unordered list
+An unordered list starts with the <ul> tag. Each list item starts with the <li> tag.
+Syntax:
+<ul>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ul>
+Ordered list
+An ordered list starts with the <ol> tag. Each list item starts with the <li> tag.
+Syntax:
+<ol type = 'i'>  // here i defines roman style listing.
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+HTML LINKS:
+HTML links are hyperlinks. We can click on a link and jump to another document.
+Hyperlinks are defined with <a> tag.
+Syntax:
+<a href="url">link text</a>
+Inline Elements
+An inline element does not start on a new line and only takes up as much width as necessary.
+This is an inline <span> element inside a paragraph.
+example: 
+<p>This is an inline span <span style="border: 1px solid black">Hello World</span> element inside a paragraph.</p>
+
+
+REFERENCE:      
+HTML :  
+  https://devdocs.io/html/element/abbr
+CSS: https://www.w3schools.com/html/html_css.asp
