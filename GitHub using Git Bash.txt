@@ -1,0 +1,50 @@
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------GitHub and Git Bash-------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+
+For the first time after installing Git Bash, open the terminal and configure it as follows --
+$ git config --global user.name "Your name here"
+$ git config --global user.email "your_email@example.com"
+
+
+Traverse to the working directory or folder where the files are saved by using "cd" command -- 
+Initialize the working folder with git -->
+$ git init
+
+
+Linking the working directory or folder to the repository -->
+$ git remote add origin <--URL : https://github.com/kolkatajubi/jubi-lessons.git-->
+
+
+Adding all the files, commit and push commands in Git -->
+$ git add .
+$ git commit -m msg
+$ git push origin master
+
+
+You need to clone the repository in your system before making a pull request for the first time -->
+$ git clone <--URL : https://github.com/kolkatajubi/jubi-lessons.git-->
+
+
+Pull request will pull all the updates from online Git repository and update your local working folder -->
+$ git pull origin master
+
+
+You can automate the pull push request by creating a script -->
+$ nano push.sh
+
+<Type the following code in the file>
+        git pull origin master
+        git add .
+        git commit -m msg
+        git push origin master
+<Save the file and exit> Ctrl+X , Y , Enter
+
+To run the the script -->
+$ sh push.sh
+
+
+---------------------------------------------------------------------------------------------------------
+-------------------------------------------------THE END-------------------------------------------------
+---------------------------------------------------------------------------------------------------------
