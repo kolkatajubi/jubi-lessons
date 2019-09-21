@@ -1,0 +1,19 @@
+1#   Find and Count elements of collection with Mongoose
+
+      You can use the length of the returned array:
+
+      Model.find().exec(function (err, results) {
+        var count = results.length
+      });
+      
+2#    To sort the Best 5 matches according to match score:
+      
+        Collection.find(filter, function(err, data) {
+          if (err) {
+            return reject({ status: "error", data: err });
+          }
+          console.log(filter);
+          return resolve({ status: "success", data: data });
+        }).sort({ score: { $meta: "textScore" } }).limit = 5;
+
+        
